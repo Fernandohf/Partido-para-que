@@ -1,0 +1,3 @@
+# LINKS DAS FONTES DOS DADOS 
+OBS.: Super devagar...zZz...
+http://legis.senado.leg.br/dadosabertos/docs/resource_ListaSenadorService.html#resource_ListaSenadorService_votacoessSenadorXml_GET
