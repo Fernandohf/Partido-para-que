@@ -6,6 +6,7 @@ O link da API: http://legis.senado.leg.br/dadosabertos/docs/ui/index.html
 70/votacoes?ano=2018
 """
 import sqlite3
+import warnings
 import requests
 
 
@@ -17,7 +18,7 @@ class DatabaseUpdater():
     def __init__(self, nome='database.db'):
         # File name of the updater
         self.file_name = nome
-    
+
     def update_senator_tables(self):
         """"
         Updates the Senator's and Partidos' table in the DB.
@@ -35,64 +36,98 @@ class DatabaseUpdater():
                          ["Parlamentares"]["Parlamentar"])
 
         # For each senator
-        for senator in parlamentares:
-            identification = senator["IdentificacaoParlamentar"]
-            cod = int(identification["CodigoParlamentar"])
-            nome = identification["NomeCompletoParlamentar"]
-            sexo = identification["SexoParlamentar"]
-            estado = identification["UfParlamentar"]
-            partido = identification["SiglaPartidoParlamentar"]
-            data_parsed.append((cod, nome, sexo, estado, partido))
+        for i, senator in enumerate(parlamentares):
+            senator_info = senator["IdentificacaoParlamentar"]
+            s_id = i + 1
+            cod = int(senator_info["CodigoParlamentar"])
+            nome = senator_info["NomeCompletoParlamentar"]
+            sexo = senator_info["SexoParlamentar"]
+            estado = senator_info["UfParlamentar"]
+            partido = senator_info["SiglaPartidoParlamentar"]
+            data_parsed.append((s_id, cod, nome, sexo, estado, partido))
 
         # Creates DB connection
         conn = sqlite3.connect(self.file_name)
         db_cursor = conn.cursor()
 
         # Saves the data
-        db_cursor.executemany("INSERT INTO Senadores VALUES (?,?,?,?,?)",
+        db_cursor.executemany("INSERT OR IGNORE INTO Senadores (SenadorID, " +
+                              "SenadorCod, NomeCompleto, Sexo, Estado," +
+                              " PartidoSigla) VALUES (?,?,?,?,?,?)",
                               data_parsed)
 
         # Commites the changes abd closes the connection
         conn.commit()
         conn.close()
 
-    def update_votes_table(self):
+    def update_votes_table(self, year_considered=['2018', '2017', '2016']):
         """
         Updates the votes table. OBS.: SLOW!!
         """
-        # Get data in json format
-        url_curr = ("http://legis.senado.leg.br/dadosabertos/senador" +
-                    "/lista/atual")
+
+        # Basic url and header
+        url_votes = "http://legis.senado.leg.br/dadosabertos/senador/"
         header = {'Accept': 'application/json'}
-        response = requests.get(url_curr, headers=header)
-        data_json = response.json()
-        data_parsed = []
-
-        # Search for Senators information
-        parlamentares = (data_json["ListaParlamentarEmExercicio"]
-                         ["Parlamentares"]["Parlamentar"])
-
-        # For each senator
-        for senator in parlamentares:
-            identification = senator["IdentificacaoParlamentar"]
-            cod = int(identification["CodigoParlamentar"])
-            nome = identification["NomeCompletoParlamentar"]
-            sexo = identification["SexoParlamentar"]
-            estado = identification["UfParlamentar"]
-            partido = identification["SiglaPartidoParlamentar"]
-            data_parsed.append((cod, nome, sexo, estado, partido))
 
         # Creates DB connection
         conn = sqlite3.connect(self.file_name)
         db_cursor = conn.cursor()
 
+        # Get each senator code
+        db_cursor.execute("SELECT SenadorID FROM Senadores")
+        senators_code = db_cursor.fetchall()
+
+        # Data placeholder
+        data_parsed = []
+        counter = 0
+        # For each senator
+        for senator_id in senators_code:
+            # Senator id
+            senator_info = senator_id[0]
+
+            # Search url
+            url_senator = (url_votes + str(senator_info) +
+                           "/votacoes")
+
+            # API response
+            response = requests.get(url_senator, headers=header)
+            data_json = response.json()
+
+            # List of votes sessions
+            try:
+                sessions = (data_json["VotacaoParlamentar"]
+                            ["Parlamentar"]["Votacoes"]["Votacao"])
+            except KeyError:
+                warnings.warn("Sessão nenhuma votação encontrada" +
+                              "para o parlamenta de código " +
+                              str(senator_info))
+                continue
+
+            # For each non-secret vote session
+            for vote in sessions:
+                session_not_secret = vote["IndicadorVotacaoSecreta"] == "Não"
+                if session_not_secret:
+                    # Year of the session
+                    year = vote["SessaoPlenaria"]["DataSessao"].split("-")[0]
+                    if year in year_considered:
+                        # Session id and vote
+                        session_id = int(vote["SessaoPlenaria"]
+                                         ["CodigoSessao"])
+                        vote = vote["DescricaoVoto"]
+                        data_parsed.append((counter, senator_info,
+                                            session_id, vote))
+                        counter += 1
+
         # Saves the data
-        db_cursor.executemany("INSERT INTO Senadores VALUES (?,?,?,?,?)",
+        db_cursor.executemany("INSERT OR IGNORE INTO votos (VotoID," +
+                              "SenadorID, SessaoID, Voto) VALUES (?,?,?,?)",
                               data_parsed)
 
-        # Commites the changes abd closes the connection
+        # Commites the changes and closes the connection
         conn.commit()
-        conn.close()        
+        conn.close()
 
 
-
+dbu = DatabaseUpdater()
+dbu.update_senator_tables()
+dbu.update_votes_table()
