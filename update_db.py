@@ -13,59 +13,6 @@ class DatabaseUpdater():
     """
     Class that controlls the database updating and retrieving information.
     """
-    # Database format
-    TABLES = {"Senadores": ["SenadorID", "NomeCompleto",
-                            "Sexo", "PartidoSigla"],
-              "Partidos": ["PartidoID", "NomeCompleto",
-                           "Sigla", "PartidoSigla"],
-              "Sessoes": ["SessaoID", "Secreta", "Data",
-                          "DescricaoVotacao", "Resultado"],
-              "Votos": ["VotoID", "SenadorID", "SessaoID",
-                        "Valor"]}
-    # API Dictionary
-    API_DICT = {"Senadores": {"url": "http://legis.senado.leg.br/" +
-                                     "dadosabertos/senador/lista/atual",
-                              "default": ["ListaParlamentarEmExercicio",
-                                          "Parlamentares", "Parlamentar"],
-                              "values": {"SenadorID": ["Identificacao" +
-                                                       "Parlamentar",
-                                                       "CodigoParlamentar"],
-                                         "NomeCompleto": ["Identificacao" +
-                                                          "Parlamentar",
-                                                          "NomeCompleto" +
-                                                          "Parlamentar"],
-                                         "Sexo": ["IdentificacaoParlamentar",
-                                                  "SexoParlamentar"],
-                                         "PartidoSigla": ["Identificacao" +
-                                                          "Parlamentar",
-                                                          "SiglaPartido" +
-                                                          "Parlamentar"]}},
-                "Partidos": {"url": "http://legis.senado.leg.br/dadosabertos" +
-                                    "/senador/partidos?indAtivos=S&v=2",
-                             "default": ["ListaPartidos", "Partidos",
-                                         "Partido"],
-                             "values": {"PartidoID": ["Codigo"],
-                                        "NomeCompleto": ["Nome"],
-                                        "Sigla": ["Sigla"]}},
-                "Sessao": {"url": "http://legis.senado.leg.br/dadosabertos/" +
-                                  "plenario/lista/votacao/",
-                           "default": ["ListaVotacoes",
-                                       "Votacoes", "Votacao"],
-                           "values": {"SessaoID": ["CodigoSessao"],
-                                      "Secreta": ["Secreta"],
-                                      "Data": ["DataSessao"],
-                                      "DescricaoVotacao": ["Descricao" +
-                                                           "Votacao"]}},
-                "Votos": {"url": "http://legis.senado.leg.br/dadosabertos" +
-                                 "/senador/",
-                          "default": ["VotacaoParlamentar",
-                                      "Parlamentar", "Votacoes", "Votacao"],
-                          "values": {"VotoID": ["SessaoPlenaria",
-                                                "CodigoSessao"],
-                                     "SenadorID": ["Secreta"],
-                                     "SessaoID": ["SessaoPlenaria",
-                                                  "CodigoSessao"],
-                                     "Voto": ["DescricaoVoto"]}}}
 
     def __init__(self, nome='database.db'):
         # File name of the updater
