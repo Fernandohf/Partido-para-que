@@ -3,7 +3,19 @@ This file evokes the API ListaSenadorService e atualiza os banco de dados
 com os atuais políticos e seus históricos de votação.
 O link da API: http://legis.senado.leg.br/dadosabertos/docs/ui/index.html
                http://legis.senado.leg.br/dadosabertos/docs/resource_PlenarioService.html#resource_PlenarioService_listaVotacoesSessaoXml_GET
-70/votacoes?ano=2018
+70/votacoes
+Legenda: MIS-Presente(art.40 - em Missão)
+P-NRV-Presente-Não registrou voto
+P-OD-Presente(obstrução declarada)
+REP-Presente(art.67/13 - em Representação da Casa)
+Ncom - Não compareceu
+AP-art.13, caput-Atividade política/cultural
+LA-art.43, §6º-Licença à adotante
+LAP-art.43, §7º-Licença paternidade ou ao adotante
+LC - art.44-A-Candidatura à Presidência/Vice-Presidência
+LS - Licença saúde
+LG - art.43, §5-Licença à gestante
+NA-dispositivo não citado
 """
 import sqlite3
 import warnings
@@ -60,7 +72,7 @@ class DatabaseUpdater():
         conn.commit()
         conn.close()
 
-    def update_votes_table(self, year_considered=['2018', '2017', '2016']):
+    def update_votes_table(self, year_considered=('2018', '2017', '2016')):
         """
         Updates the votes table. OBS.: SLOW!!
         """
@@ -76,6 +88,7 @@ class DatabaseUpdater():
         # Get each senator code
         db_cursor.execute("SELECT SenadorID FROM Senadores")
         senators_code = db_cursor.fetchall()
+        conn.close()
 
         # Data placeholder
         data_parsed = []
@@ -118,6 +131,10 @@ class DatabaseUpdater():
                                             session_id, vote))
                         counter += 1
 
+        # Creates DB connection
+        conn = sqlite3.connect(self.file_name)
+        db_cursor = conn.cursor()
+
         # Saves the data
         db_cursor.executemany("INSERT OR IGNORE INTO votos (VotoID," +
                               "SenadorID, SessaoID, Voto) VALUES (?,?,?,?)",
@@ -128,6 +145,6 @@ class DatabaseUpdater():
         conn.close()
 
 
-dbu = DatabaseUpdater()
-dbu.update_senator_tables()
-dbu.update_votes_table()
+DBU = DatabaseUpdater()
+DBU.update_senator_tables()
+DBU.update_votes_table()
