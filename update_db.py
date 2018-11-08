@@ -4,7 +4,8 @@ com os atuais políticos e seus históricos de votação.
 O link da API: http://legis.senado.leg.br/dadosabertos/docs/ui/index.html
                http://legis.senado.leg.br/dadosabertos/docs/resource_PlenarioService.html#resource_PlenarioService_listaVotacoesSessaoXml_GET
 70/votacoes
-Legenda: MIS-Presente(art.40 - em Missão)
+Legenda: 
+MIS-Presente(art.40 - em Missão)
 P-NRV-Presente-Não registrou voto
 P-OD-Presente(obstrução declarada)
 REP-Presente(art.67/13 - em Representação da Casa)
