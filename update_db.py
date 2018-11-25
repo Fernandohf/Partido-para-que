@@ -73,7 +73,7 @@ class DatabaseUpdater():
         conn.commit()
         conn.close()
 
-    def update_votes_table(self, year_considered=('2018', '2017', '2016')):
+    def update_votes_table(self, year_considered= ('2018', '2017', '2016')):
         """
         Updates the votes table. OBS.: SLOW!!
         """
@@ -87,7 +87,7 @@ class DatabaseUpdater():
         db_cursor = conn.cursor()
 
         # Get each senator code
-        db_cursor.execute("SELECT SenadorID FROM Senadores")
+        db_cursor.execute("SELECT SenadorCod FROM Senadores")
         senators_code = db_cursor.fetchall()
         conn.close()
 
@@ -148,4 +148,6 @@ class DatabaseUpdater():
 
 DBU = DatabaseUpdater()
 DBU.update_senator_tables()
+
+years = (str(x).zfill(4) for x in range(2011, 2019))
 DBU.update_votes_table()
