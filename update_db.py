@@ -73,7 +73,7 @@ class DatabaseUpdater():
         conn.commit()
         conn.close()
 
-    def update_votes_table(self, year_considered= ('2018', '2017', '2016')):
+    def update_votes_table(self, year_considered=('2018', '2017', '2016')):
         """
         Updates the votes table. OBS.: SLOW!!
         """
