@@ -1,7 +1,7 @@
 
 # Partido para quê?
 
-A notebook that analyses voting behaviour of brazilians congress men.
+A notebook that analyses voting behaviour of brazilians congress men and women.
 The purpose of this notebook is to verify the need of 35 different parties in Brazil.
 
 ## Data
