@@ -12,6 +12,8 @@ Brazilian Senate API: [http://legis.senado.leg.br/dadosabertos/docs/]
 - Pandas (0.23.4)
 - SQLAlchemy (1.2.14)
 - Requests (2.18.4)
+- Numpy (1.15.2)
+- Scikit-Learn (0.20.2)
 
 # How to Run
 1. First run the file `update_db.py`, this file creates update/creates the database. the
