@@ -1,9 +1,18 @@
 
 # Partido para quê?
 
-A notebook that analyses voting behaviour of brazilians congress men and women.
-The purpose of this notebook is to verify the need of 35 different parties in Brazil.
+This is a small Machine Learning project that applies clustering techniques on brazilians senators voting behavior.
+A notebook that analyses voting behavior of brazilians congress men and women. The purpose of this notebook is to verify the need of 35 different parties in Brazil.
 
-## Data
+## Data Source
+Brazilian Senate API: [http://legis.senado.leg.br/dadosabertos/docs/]
+(http://legis.senado.leg.br/dadosabertos/docs/)
 
-The Data was collected using the congress API available [here](http://legis.senado.leg.br/dadosabertos/docs/resource_ListaSenadorService.html#resource_ListaSenadorService_votacoessSenadorXml_GET)
+## Requirements
+- Pandas (0.23.4)
+- SQLAlchemy (1.2.14)
+- Requests (2.18.4)
+
+# How to Run
+1. First run the file `update_db.py`, this file creates update/creates the database. the
+2. Run the `Partido_para_que.ipynb` Notebook and follow the instructions.
