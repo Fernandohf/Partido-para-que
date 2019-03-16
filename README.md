@@ -6,8 +6,7 @@ A notebook that analyses voting behavior of brazilians congress men and women. T
 
 ## Data Source
 
-Brazilian Senate API: [http://legis.senado.leg.br/dadosabertos/docs/]
-(http://legis.senado.leg.br/dadosabertos/docs/)
+Brazilian Senate API: [http://legis.senado.leg.br/dadosabertos/docs/](http://legis.senado.leg.br/dadosabertos/docs/)
 
 ## Requirements
 
