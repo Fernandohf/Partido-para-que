@@ -6,7 +6,7 @@ A notebook that analyses voting behavior of brazilians congress men and women. T
 
 ## Data Source
 
-Brazilian Senate API: [http://legis.senado.leg.br/dadosabertos/docs/](http://legis.senado.leg.br/dadosabertos/docs/)
+Brazilian Senate API Docs: [http://legis.senado.leg.br/dadosabertos/docs/](http://legis.senado.leg.br/dadosabertos/docs/)
 
 ## Requirements
 
@@ -18,5 +18,7 @@ Brazilian Senate API: [http://legis.senado.leg.br/dadosabertos/docs/](http://leg
 
 ## How to Run
 
-1. First run the file `update_db.py`, this file update/creates the SQLLite database.
-2. Run the `Partido_para_que.ipynb` Notebook and follow the instructions.
+1. Create the conda environment with conda `conda env create -f environment.yml`.
+2. Activate the environment `pt`.
+3. Run the file `update_db.py`, this file update/creates the SQLLite database.
+4. Run the `Partido_para_que.ipynb` Notebook and follow the instructions.
