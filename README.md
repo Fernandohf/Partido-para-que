@@ -10,11 +10,11 @@ Brazilian Senate API: [http://legis.senado.leg.br/dadosabertos/docs/](http://leg
 
 ## Requirements
 
-- Pandas (0.23.4)
-- SQLAlchemy (1.2.14)
-- Requests (2.18.4)
-- Numpy (1.15.2)
-- Scikit-Learn (0.20.2)
+- Pandas >= 0.23.4
+- SQLAlchemy >= 1.2.14
+- Requests >= 2.18.4
+- Numpy >= 1.15.2
+- Scikit-Learn >= 0.20.2
 
 ## How to Run
 
