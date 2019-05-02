@@ -1,7 +1,7 @@
 
 # Partido para quê?
 
-This is a small Machine Learning project that applies clustering techniques on brazilians senators voting behavior.
+This is a Machine Learning project that applies clustering techniques on brazilians senators voting behavior.
 A notebook that analyses voting behavior of brazilians congress men and women. The purpose of this notebook is to verify the need of 35 different parties in Brazil.
 
 ## Data Source
@@ -18,5 +18,5 @@ Brazilian Senate API: [http://legis.senado.leg.br/dadosabertos/docs/](http://leg
 
 ## How to Run
 
-1. First run the file `update_db.py`, this file creates update/creates the database.
+1. First run the file `update_db.py`, this file update/creates the SQLLite database.
 2. Run the `Partido_para_que.ipynb` Notebook and follow the instructions.
