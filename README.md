@@ -20,5 +20,5 @@ Brazilian Senate API Docs: [http://legis.senado.leg.br/dadosabertos/docs/](http:
 
 1. Create the conda environment with conda `conda env create -f environment.yml`.
 2. Activate the environment `pt`.
-3. Run the file `update_db.py`, this file update/creates the SQLLite database.
+3. Run the file `update_db.py`, this file update/creates the SQLite database.
 4. Run the `Partido_para_que.ipynb` Notebook and follow the instructions.
